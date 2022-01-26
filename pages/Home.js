@@ -55,7 +55,7 @@ export default function Home() {
             {/* <Title tag="h2">Bate-Papo Uai</Title> */}
             <Text 
               variant="heading1"
-              styleSheet={{
+              styleSheet={{            
                 fontFamily: 'Jaman Edan',
                 color: appConfig.theme.colors.neutrals["050"]
               }}>

@@ -2,7 +2,11 @@ function GlobalStyle() {
   return (
     <style global jsx>{`
       @import url('http://fonts.cdnfonts.com/css/jaman-edan');
-      
+
+      @font-face {
+        font-family: 'Jaman-Edan',
+      }
+
       * {
         margin: 0;
         padding: 0;
