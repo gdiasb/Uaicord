@@ -1,11 +1,13 @@
 function GlobalStyle() {
   return (
     <style global jsx>{`
-      @import url('http://fonts.cdnfonts.com/css/jaman-edan');
 
       @font-face {
-        font-family: 'Jaman-Edan',
-      }
+        font-family: 'Jaman Edan';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Jaman Edan'), url('https://fonts.cdnfonts.com/s/74233/JamanEdanPersonal-ALla2.woff') format('woff');
+    }
 
       * {
         margin: 0;
