@@ -14,7 +14,6 @@ export default function Home() {
           justifyContent: "center",
           backgroundColor: appConfig.theme.colors.neutrals[300],
           backgroundImage:
-            // "url(https://virtualbackgrounds.site/wp-content/uploads/2020/07/blue-screen-of-death-in-windows-10.jpg)",
             "url(https://images.unsplash.com/photo-1544456808-7530b2d112df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
@@ -42,6 +41,9 @@ export default function Home() {
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={(target) => {
+              target.preventDefault();
+            }}
             styleSheet={{
               display: "flex",
               flexDirection: "column",
@@ -52,15 +54,15 @@ export default function Home() {
               marginBottom: "32px",
             }}
           >
-            {/* <Title tag="h2">Bate-Papo Uai</Title> */}
-            <Text 
+            <Text
               variant="heading1"
-              styleSheet={{            
-                fontFamily: 'Jaman Edan',
-                color: appConfig.theme.colors.neutrals["050"]
-              }}>
-                Uai?!
-              </Text>
+              styleSheet={{
+                fontFamily: "Jaman Edan",
+                color: appConfig.theme.colors.neutrals["050"],
+              }}
+            >
+              Uai?!
+            </Text>
             <Text
               variant="body3"
               styleSheet={{
@@ -68,7 +70,6 @@ export default function Home() {
                 color: appConfig.theme.colors.neutrals[300],
               }}
             >
-              {/* {appConfig.name} */}
               Bora prosear um cadim?
             </Text>
 
@@ -83,8 +84,8 @@ export default function Home() {
                 },
               }}
               value={username}
-              onChange={({target}) => {
-                  setUsername(target.value)
+              onChange={({ target }) => {
+                setUsername(target.value);
               }}
             />
             <Button
@@ -119,10 +120,14 @@ export default function Home() {
           >
             <Image
               styleSheet={{
-                borderRadius: '50%',
-                marginBottom: '16px',
+                borderRadius: "50%",
+                marginBottom: "16px",
               }}
-              src={(username.length > 2) ? `https://github.com/${username}.png` : `https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg`}
+              src={
+                username.length > 2
+                  ? `https://github.com/${username}.png`
+                  : `https://octodex.github.com/images/spectrocat.png`
+              }
             />
             <Text
               variant="body4"

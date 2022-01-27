@@ -1,12 +1,9 @@
-import GlobalStyle from '../styles/GlobalStyle';
-import Home from './Home';
+import Home from "./home";
 
-export default function App(){
-return (
+export default function App() {
+  return (
     <>
-    <GlobalStyle />
-    <Home />
+      <Home />
     </>
-
-)
+  );
 }
