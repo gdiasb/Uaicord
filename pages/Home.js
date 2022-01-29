@@ -1,9 +1,26 @@
 import { Box, Button, Text, TextField, Image } from "@skynexui/components";
-import React from "react";
+import React, { useEffect } from "react";
+import { Router } from "next/router";
 import appConfig from "../config.json";
 
 export default function Home() {
   const [username, setUsername] = React.useState("gdiasb");
+  const [userdata, setUserData] = React.useState(null);
+
+  React.useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(`https://api.github.com/users/${username}`);
+      const data = await response.json();
+      setUserData(data);
+    }
+    fetchData();
+  }, [username]);
+
+  // React.useEffect(() => {
+  //   fetch(`https://api.github.com/users/${username}`)
+  //     .then((response) => response.json())
+  //     .then((json) => console.log(json));
+  // }, [username]);
 
   return (
     <>
@@ -13,8 +30,7 @@ export default function Home() {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: appConfig.theme.colors.neutrals[300],
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1544456808-7530b2d112df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80)",
+          backgroundImage: appConfig.images.background,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundBlendMode: "multiply",
@@ -124,11 +140,22 @@ export default function Home() {
                 marginBottom: "16px",
               }}
               src={
-                username.length > 2
+                username.length > 0
                   ? `https://github.com/${username}.png`
-                  : `https://octodex.github.com/images/spectrocat.png`
+                  : `https://octodex.github.com/images/spectrocat.png` // Octodex Github
               }
             />
+            <Text
+              variant="body3"
+              styleSheet={{
+                color: appConfig.theme.colors.neutrals[100],
+                marginBottom: "0.5em",
+              }}
+            >
+              {username.length > 0 &&
+                username !== null &&
+                "Oi, " + userdata.name + "!"}
+            </Text>
             <Text
               variant="body4"
               styleSheet={{
