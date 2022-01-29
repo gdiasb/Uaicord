@@ -7,7 +7,7 @@ export default function MessageList(props) {
     <Box
       tag="ul"
       styleSheet={{
-        overflow: "hidden",
+        overflow: "scroll",
         overflowY: "scroll",
         display: "flex",
         flexDirection: "column-reverse",
