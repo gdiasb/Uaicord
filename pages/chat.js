@@ -73,7 +73,7 @@ export default function ChatPage() {
             }}
           >
             <TextField
-              placeholder="Insira sua mensagem aqui..."
+              placeholder="Write here..."
               type="textarea"
               styleSheet={{
                 width: "100%",
