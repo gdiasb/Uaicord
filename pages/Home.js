@@ -1,9 +1,11 @@
 import { Box, Button, Text, TextField, Image } from "@skynexui/components";
-import React, { useEffect } from "react";
-import { Router } from "next/router";
+import React from "react";
+import { useRouter } from "next/router";
 import appConfig from "../config.json";
 
 export default function Home() {
+  const router = useRouter();
+
   const [username, setUsername] = React.useState("gdiasb");
   const [userdata, setUserData] = React.useState(null);
 
@@ -114,6 +116,7 @@ export default function Home() {
                 mainColorLight: appConfig.theme.colors.primary[400],
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}
+              onClick={() => router.push("/chat")}
             />
           </Box>
           {/* Formulário */}
@@ -153,7 +156,7 @@ export default function Home() {
               }}
             >
               {username.length > 0 &&
-                username !== null &&
+                userdata !== null &&
                 "Oi, " + userdata.name + "!"}
             </Text>
             <Text

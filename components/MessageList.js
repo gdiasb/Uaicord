@@ -31,8 +31,6 @@ export default function MessageList(props) {
         <Box
           styleSheet={{
             marginBottom: "8px",
-            maxWidth: "10%",
-            backgroundColor: "white",
           }}
         >
           <Image
