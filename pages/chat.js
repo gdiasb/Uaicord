@@ -17,23 +17,27 @@ export default function ChatPage() {
   const [messageList, setMessageList] = React.useState([]);
 
   function handleMessage(event) {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" || event.type === "submit") {
       event.preventDefault();
 
-      setMessageList([
-        ...messageList,
-        { id: messageList.length + 1, user: "", text: event.target.value },
-      ]);
-      setMessage("");
-    } else if (event.type === "submit") {
-      event.preventDefault();
-      setMessageList([
-        ...messageList,
-        { id: messageList.length + 1, user: "", text: message },
-      ]);
+      supabaseClient
+        .from("uaicord_messages")
+        .insert([{ from: "PQ", text: event.target.value }])
+        .then((item) => {
+          setMessageList([...messageList, item.data[0]]);
+        });
       setMessage("");
     }
-  }
+    // } else if (event.type === "submit") {
+    //   event.preventDefault();
+    //   setMessageList([
+    //     ...messageList,
+    //     { id: messageList.length + 1, from: "", text: message },
+    //   ]);
+    //   setMessage("");
+    // }
+    }
+    // console.log(messageList)
 
   //   function handleMessage(event) {
   //     if (event.key === "Enter") {

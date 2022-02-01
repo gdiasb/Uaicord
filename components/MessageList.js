@@ -8,7 +8,7 @@ export default function MessageList(props) {
       tag="ul"
       styleSheet={{
         overflowY: "auto",
-        overflowWrap: 'break-word',
+        overflowWrap: "break-word",
         display: "flex",
         flexDirection: "column-reverse",
         flex: 1,
@@ -46,7 +46,7 @@ export default function MessageList(props) {
                 }}
                 src={`https://github.com/${message.from}.png`}
               />
-              <Text tag="strong">{message.user}</Text>
+              <Text tag="strong">{message.from}</Text>
               <Text
                 styleSheet={{
                   fontSize: "10px",
