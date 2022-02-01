@@ -1,26 +1,64 @@
 import { Box, Text, TextField, Image, Button } from "@skynexui/components";
-import React, { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+import React from "react";
 import appConfig from "../config.json";
 import Header from "../components/Header";
 import MessageList from "../components/MessageList";
 
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzY2NTQ2NCwiZXhwIjoxOTU5MjQxNDY0fQ.NIQ1qNBFJHt1cezKBVEt4R-9JCP8kNAXZ_VxMiEfXBw";
+
+const SUPABASE_URL = "https://qqarzpnoemuvcxidecmf.supabase.co";
+
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 export default function ChatPage() {
-  const [message, setMessage] = useState("");
-  const [messageList, setMessageList] = useState([]);
+  const [message, setMessage] = React.useState();
+  const [messageList, setMessageList] = React.useState([]);
 
   function handleMessage(event) {
     if (event.key === "Enter") {
       event.preventDefault();
-      setMessage(event.target.value);
-      event.target.value = "";
+
+      setMessageList([
+        ...messageList,
+        { id: messageList.length + 1, user: "", text: event.target.value },
+      ]);
+      setMessage("");
+    } else if (event.type === "submit") {
+      event.preventDefault();
+      setMessageList([
+        ...messageList,
+        { id: messageList.length + 1, user: "", text: message },
+      ]);
+      setMessage("");
     }
   }
 
-  React.useEffect(() => {
-    setMessageList([...messageList, message]);
-  }, [message]);
+  //   function handleMessage(event) {
+  //     if (event.key === "Enter") {
+  //       event.preventDefault();
 
-  console.log(messageList);
+  //       const newMessage = {
+  //         id: messageList.length + 1,
+  //         user: "",
+  //         text: event.target.value,
+  //       };
+
+  //       setMessageList([...messageList, newMessage]);
+  //     //   setMessage("");
+  //       event.target.value = "";
+  //     }
+  //   }
+
+  React.useEffect(() => {
+    supabaseClient
+      .from("uaicord_messages")
+      .select("*")
+      .then(({ data }) => {
+        setMessageList(data);
+      });
+  }, []);
 
   return (
     <Box
@@ -67,13 +105,16 @@ export default function ChatPage() {
 
           <Box
             as="form"
+            onSubmit={(event) => {
+              handleMessage(event);
+            }}
             styleSheet={{
               display: "flex",
               alignItems: "center",
             }}
           >
             <TextField
-              placeholder="Write here..."
+              placeholder="Say something..."
               type="textarea"
               styleSheet={{
                 width: "100%",
@@ -86,7 +127,13 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.neutrals[200],
               }}
               onKeyPress={handleMessage}
+              value={message}
+              onChange={(event) => {
+                setMessage(event.currentTarget.value);
+              }}
             />
+
+            <Button type="submit" styleSheet={{ height: "90%" }} label="Send" />
           </Box>
         </Box>
       </Box>

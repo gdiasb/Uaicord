@@ -1,13 +1,13 @@
 import { Box, Text, Image } from "@skynexui/components";
 import appConfig from "../config.json";
 
-export default function MessageList({ list }) {
-  console.log("MessageList", list);
+export default function MessageList(props) {
+  // console.log("MessageList", props);
   return (
     <Box
       tag="ul"
       styleSheet={{
-        overflowY: "scroll",
+        overflowY: "auto",
         overflowWrap: 'break-word',
         display: "flex",
         flexDirection: "column-reverse",
@@ -16,10 +16,10 @@ export default function MessageList({ list }) {
         marginBottom: "16px",
       }}
     >
-      {list.map((message) => {
+      {props.list.map((message) => {
         return (
           <Text
-            // key={mensagem.id}
+            key={message.id}
             tag="li"
             styleSheet={{
               flexShrink: 1,
@@ -44,9 +44,9 @@ export default function MessageList({ list }) {
                   display: "inline-block",
                   marginRight: "8px",
                 }}
-                src={`https://github.com/vanessametonini.png`}
+                src={`https://github.com/${message.from}.png`}
               />
-              {/* <Text tag="strong">{mensagem.de}</Text> */} mensagem de
+              <Text tag="strong">{message.user}</Text>
               <Text
                 styleSheet={{
                   fontSize: "10px",
@@ -58,8 +58,7 @@ export default function MessageList({ list }) {
                 {new Date().toLocaleDateString()}
               </Text>
             </Box>
-            {message}
-            {/* {mensagem.texto} */}
+            {message.text}
           </Text>
         );
       })}
