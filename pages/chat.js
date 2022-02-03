@@ -15,6 +15,9 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 export default function ChatPage() {
   const [message, setMessage] = React.useState();
   const [messageList, setMessageList] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  // const loggedUser =
 
   function handleMessage(event) {
     if (event.key === "Enter" || event.type === "submit") {
@@ -22,9 +25,11 @@ export default function ChatPage() {
 
       supabaseClient
         .from("uaicord_messages")
-        .insert([{ from: "PQ", text: event.target.value }])
-        .then((item) => {
-          setMessageList([...messageList, item.data[0]]);
+          .insert([{ from: "gdias", text: message }])
+          .order('id', { ascending: false })
+        .then(({ data }) => {
+          setMessageList([data[0], ...messageList]);
+          setIsLoading(false);
         });
       setMessage("");
     }
@@ -36,8 +41,8 @@ export default function ChatPage() {
     //   ]);
     //   setMessage("");
     // }
-    }
-    // console.log(messageList)
+  }
+  // console.log(messageList)
 
   //   function handleMessage(event) {
   //     if (event.key === "Enter") {
@@ -59,8 +64,10 @@ export default function ChatPage() {
     supabaseClient
       .from("uaicord_messages")
       .select("*")
+      .order("id", { ascending: false })
       .then(({ data }) => {
         setMessageList(data);
+        setIsLoading(false);
       });
   }, []);
 
@@ -105,7 +112,7 @@ export default function ChatPage() {
             padding: "16px",
           }}
         >
-          <MessageList list={messageList} />
+          <MessageList list={messageList} loading={isLoading} />
 
           <Box
             as="form"

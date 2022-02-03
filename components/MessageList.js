@@ -1,8 +1,9 @@
 import { Box, Text, Image } from "@skynexui/components";
+import Loader from "./Loader/Loader";
 import appConfig from "../config.json";
 
 export default function MessageList(props) {
-  // console.log("MessageList", props);
+  console.log("MessageList", props);
   return (
     <Box
       tag="ul"
@@ -16,52 +17,56 @@ export default function MessageList(props) {
         marginBottom: "16px",
       }}
     >
-      {props.list.map((message) => {
-        return (
-          <Text
-            key={message.id}
-            tag="li"
-            styleSheet={{
-              flexShrink: 1,
-              borderRadius: "5px",
-              padding: "6px",
-              marginBottom: "12px",
-              hover: {
-                backgroundColor: appConfig.theme.colors.neutrals[700],
-              },
-            }}
-          >
-            <Box
+      {props.loading ? (
+        <Loader />
+      ) : (
+        props.list.map((message) => {
+          return (
+            <Text
+              key={message.id}
+              tag="li"
               styleSheet={{
-                marginBottom: "8px",
+                flexShrink: 1,
+                borderRadius: "5px",
+                padding: "6px",
+                marginBottom: "12px",
+                hover: {
+                  backgroundColor: appConfig.theme.colors.neutrals[700],
+                },
               }}
             >
-              <Image
+              <Box
                 styleSheet={{
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  marginRight: "8px",
+                  marginBottom: "8px",
                 }}
-                src={`https://github.com/${message.from}.png`}
-              />
-              <Text tag="strong">{message.from}</Text>
-              <Text
-                styleSheet={{
-                  fontSize: "10px",
-                  marginLeft: "8px",
-                  color: appConfig.theme.colors.neutrals[300],
-                }}
-                tag="span"
               >
-                {new Date().toLocaleDateString()}
-              </Text>
-            </Box>
-            {message.text}
-          </Text>
-        );
-      })}
+                <Image
+                  styleSheet={{
+                    width: "20px",
+                    height: "20px",
+                    borderRadius: "50%",
+                    display: "inline-block",
+                    marginRight: "8px",
+                  }}
+                  src={`https://github.com/${message.from}.png`}
+                />
+                <Text tag="strong">{message.from}</Text>
+                <Text
+                  styleSheet={{
+                    fontSize: "10px",
+                    marginLeft: "8px",
+                    color: appConfig.theme.colors.neutrals[300],
+                  }}
+                  tag="span"
+                >
+                  {new Date().toLocaleDateString()}
+                </Text>
+              </Box>
+              {message.text}
+            </Text>
+          );
+        })
+      )}
     </Box>
   );
 }

@@ -1,0 +1,48 @@
+.animation {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  background-color: green;
+
+  animation: animate-circle;
+  animation-duration: 2s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.circle:nth-child(2) {
+  animation-delay: 0.25s;
+}
+.circle:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.circle:nth-child(n + 2) {
+  margin-left: 4px;
+}
+
+@keyframes animate-circle {
+  0% {
+    background-color: red;
+  }
+  25% {
+    background-color: yellow;
+  }
+  50% {
+    background-color: blue;
+  }
+  75% {
+    background-color: whitesmoke;
+  }
+  100% {
+    transform: translatey(-50px);
+  }
+}
