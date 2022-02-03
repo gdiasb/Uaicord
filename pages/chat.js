@@ -4,6 +4,7 @@ import React from "react";
 import appConfig from "../config.json";
 import Header from "../components/Header";
 import MessageList from "../components/MessageList";
+import Loader from "../components/Loader/Loader";
 
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzY2NTQ2NCwiZXhwIjoxOTU5MjQxNDY0fQ.NIQ1qNBFJHt1cezKBVEt4R-9JCP8kNAXZ_VxMiEfXBw";
@@ -25,8 +26,8 @@ export default function ChatPage() {
 
       supabaseClient
         .from("uaicord_messages")
-          .insert([{ from: "gdias", text: message }])
-          .order('id', { ascending: false })
+        .insert([{ from: "gdias", text: message }])
+        .order("id", { ascending: false })
         .then(({ data }) => {
           setMessageList([data[0], ...messageList]);
           setIsLoading(false);
@@ -112,7 +113,7 @@ export default function ChatPage() {
             padding: "16px",
           }}
         >
-          <MessageList list={messageList} loading={isLoading} />
+          {isLoading ? <Loader /> : <MessageList list={messageList} />}
 
           <Box
             as="form"
