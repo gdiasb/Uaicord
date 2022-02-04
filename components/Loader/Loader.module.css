@@ -9,7 +9,7 @@
 .circle {
   width: 10px;
   height: 10px;
-  background-color: green;
+  background-color: #bb2626;
 
   animation: animate-circle;
   animation-duration: 2s;
@@ -31,16 +31,16 @@
 
 @keyframes animate-circle {
   0% {
-    background-color: red;
+    background-color: #f59797;
   }
   25% {
-    background-color: yellow;
+    background-color: #ee5959;
   }
   50% {
-    background-color: blue;
+    background-color: #ea2f2f;
   }
   75% {
-    background-color: whitesmoke;
+    background-color: #fbd5d5;
   }
   100% {
     transform: translatey(-50px);

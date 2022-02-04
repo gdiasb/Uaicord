@@ -116,7 +116,7 @@ export default function Home() {
                 mainColorLight: appConfig.theme.colors.primary[400],
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}
-              onClick={() => router.push("/chat")}
+              onClick={() => router.push(`/chat?username=${username}`)}
             />
           </Box>
           {/* Formulário */}

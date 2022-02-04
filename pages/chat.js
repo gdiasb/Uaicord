@@ -5,6 +5,8 @@ import appConfig from "../config.json";
 import Header from "../components/Header";
 import MessageList from "../components/MessageList";
 import Loader from "../components/Loader/Loader";
+import { useRouter } from "next/router";
+import { ButtonSendSticker } from "../components/ButtonSendSticker";
 
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzY2NTQ2NCwiZXhwIjoxOTU5MjQxNDY0fQ.NIQ1qNBFJHt1cezKBVEt4R-9JCP8kNAXZ_VxMiEfXBw";
@@ -14,23 +16,27 @@ const SUPABASE_URL = "https://qqarzpnoemuvcxidecmf.supabase.co";
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default function ChatPage() {
+  const router = useRouter();
+  const loggedUser = router.query.username;
+
   const [message, setMessage] = React.useState();
   const [messageList, setMessageList] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  // const loggedUser =
-
-  function handleMessage(event) {
-    if (event.key === "Enter" || event.type === "submit") {
-      event.preventDefault();
-
+    function handleMessage(event) {
+      console.log('manda messagem pro servidor')
+    if (
+      event.key === "Enter" ||
+      event.type === "submit" ||
+      event === "sticker"
+    ) {
       supabaseClient
         .from("uaicord_messages")
-        .insert([{ from: "gdias", text: message }])
+        .insert([{ from: loggedUser, text: message }])
         .order("id", { ascending: false })
         .then(({ data }) => {
           setMessageList([data[0], ...messageList]);
-          setIsLoading(false);
+        //   setIsLoading(false);
         });
       setMessage("");
     }
@@ -68,7 +74,7 @@ export default function ChatPage() {
       .order("id", { ascending: false })
       .then(({ data }) => {
         setMessageList(data);
-        setIsLoading(false);
+        setIsLoading(!isLoading);
       });
   }, []);
 
@@ -118,7 +124,8 @@ export default function ChatPage() {
           <Box
             as="form"
             onSubmit={(event) => {
-              handleMessage(event);
+              event.preventDefault();
+              handleMessage(event, message);
             }}
             styleSheet={{
               display: "flex",
@@ -138,14 +145,45 @@ export default function ChatPage() {
                 marginRight: "12px",
                 color: appConfig.theme.colors.neutrals[200],
               }}
-              onKeyPress={handleMessage}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  handleMessage(event, message);
+                }
+              }}
               value={message}
               onChange={(event) => {
                 setMessage(event.currentTarget.value);
               }}
             />
 
-            <Button type="submit" styleSheet={{ height: "90%" }} label="Send" />
+            <ButtonSendSticker
+              onStickerClick={(event) => {
+                const stickerMessage = ":URL:" + event;
+                handleMessage("sticker", stickerMessage);
+              }}
+            />
+
+            <Button
+              type="submit"
+              styleSheet={{
+                minWidth: "50px",
+                minHeight: "50px",
+                fontSize: "20px",
+                marginBottom: "8px",
+                marginRight: "8px",
+                lineHeight: "0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: appConfig.theme.colors.neutrals[300],
+              }}
+              label="Send"
+              //   onClick={(event) => {
+              //     event.preventDefault();
+              //     console.log(event, message);
+              //   }}
+            />
           </Box>
         </Box>
       </Box>

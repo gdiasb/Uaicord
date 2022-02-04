@@ -2,7 +2,6 @@ import { Box, Text, Image } from "@skynexui/components";
 import appConfig from "../config.json";
 
 export default function MessageList(props) {
-  console.log("MessageList", props);
   return (
     <Box
       tag="ul"
@@ -58,7 +57,11 @@ export default function MessageList(props) {
                 {new Date().toLocaleDateString()}
               </Text>
             </Box>
-            {message.text}
+            {message.text.startsWith(":URL:") ? (
+              <Image src={message.text.replace(":URL:", "")} styleSheet={{height: "30vh"}} />
+            ) : (
+              message.text
+            )}
           </Text>
         );
       })}
