@@ -57,8 +57,11 @@ export default function MessageList(props) {
                 {new Date().toLocaleDateString()}
               </Text>
             </Box>
-            {message.text.startsWith(":URL:") ? (
-              <Image src={message.text.replace(":URL:", "")} styleSheet={{height: "30vh"}} />
+            {message.text !== null && message.text.startsWith(":URL:") ? (
+              <Image
+                src={message.text.replace(":URL:", "")}
+                styleSheet={{ height: "30vh" }}
+              />
             ) : (
               message.text
             )}

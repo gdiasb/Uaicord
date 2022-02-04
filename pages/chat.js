@@ -23,8 +23,8 @@ export default function ChatPage() {
   const [messageList, setMessageList] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-    function handleMessage(event) {
-      console.log('manda messagem pro servidor')
+  function handleMessage(event, message) {
+    console.log("manda pro servidor", message);
     if (
       event.key === "Enter" ||
       event.type === "submit" ||
@@ -36,7 +36,7 @@ export default function ChatPage() {
         .order("id", { ascending: false })
         .then(({ data }) => {
           setMessageList([data[0], ...messageList]);
-        //   setIsLoading(false);
+          //   setIsLoading(false);
         });
       setMessage("");
     }
@@ -159,7 +159,9 @@ export default function ChatPage() {
 
             <ButtonSendSticker
               onStickerClick={(event) => {
+                //   console.log(event)
                 const stickerMessage = ":URL:" + event;
+                //   setMessage(stickerMessage)
                 handleMessage("sticker", stickerMessage);
               }}
             />
