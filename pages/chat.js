@@ -23,6 +23,23 @@ export default function ChatPage() {
   const [messageList, setMessageList] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
+  let messageWithoutSpaces;
+
+  if (typeof message !== "undefined" && message.replace(/\s/g, "").length) {
+    messageWithoutSpaces = false;
+  } else {
+    messageWithoutSpaces = true;
+  }
+
+  function realTimeDatabase() {
+    supabaseClient
+      .from("uaicord_messages")
+      .on("*", (data) => {
+        console.log(data);
+      })
+      .subscribe();
+  }
+
   function handleMessage(event, message) {
     console.log("manda pro servidor", message);
     if (
@@ -148,7 +165,10 @@ export default function ChatPage() {
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
                   event.preventDefault();
-                  handleMessage(event, message);
+                  // Verificação se a mensagem só tem espaços ou é vazia => REGEX
+                  if (message.replace(/\s/g, "").length) {
+                    handleMessage(event, message);
+                  }
                 }
               }}
               value={message}
@@ -159,13 +179,10 @@ export default function ChatPage() {
 
             <ButtonSendSticker
               onStickerClick={(event) => {
-                //   console.log(event)
                 const stickerMessage = ":URL:" + event;
-                //   setMessage(stickerMessage)
                 handleMessage("sticker", stickerMessage);
               }}
             />
-
             <Button
               type="submit"
               styleSheet={{
@@ -181,10 +198,7 @@ export default function ChatPage() {
                 backgroundColor: appConfig.theme.colors.neutrals[300],
               }}
               label="Send"
-              //   onClick={(event) => {
-              //     event.preventDefault();
-              //     console.log(event, message);
-              //   }}
+              disabled={messageWithoutSpaces}
             />
           </Box>
         </Box>
