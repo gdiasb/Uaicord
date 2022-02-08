@@ -32,7 +32,6 @@ export default function ChatPage() {
   }
 
   function handleMessage(event, message) {
-    // console.log("manda pro servidor", message);
     if (
       event.key === "Enter" ||
       event.type === "submit" ||
@@ -42,42 +41,9 @@ export default function ChatPage() {
         .from("uaicord_messages")
         .insert([{ from: loggedUser, text: message }])
         .order("id", { ascending: false })
-        // .then(realTimeDatabase());
         .then(setMessage(""));
-      // .then(({ data }) => {
-      //   setMessageList([data[0], ...messageList]);
-      //   //   setIsLoading(false);
-      // });
-      //   setMessage("");
-
-      //   realTimeDatabase();
     }
-    // } else if (event.type === "submit") {
-    //   event.preventDefault();
-    //   setMessageList([
-    //     ...messageList,
-    //     { id: messageList.length + 1, from: "", text: message },
-    //   ]);
-    //   setMessage("");
-    // }
   }
-  // console.log(messageList)
-
-  //   function handleMessage(event) {
-  //     if (event.key === "Enter") {
-  //       event.preventDefault();
-
-  //       const newMessage = {
-  //         id: messageList.length + 1,
-  //         user: "",
-  //         text: event.target.value,
-  //       };
-
-  //       setMessageList([...messageList, newMessage]);
-  //     //   setMessage("");
-  //       event.target.value = "";
-  //     }
-  //   }
 
   React.useEffect(() => {
     const realTimeDatabase = supabaseClient
@@ -92,7 +58,6 @@ export default function ChatPage() {
       realTimeDatabase.unsubscribe();
     };
   }, []);
-    
 
   React.useEffect(() => {
     supabaseClient
